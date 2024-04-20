@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("./partials/head.ejs") %>
+<body>
+    <%- include("./partials/header.ejs") %>
+    
+    <div class="container px-4 py-5" id="featured-3">
+        <h2 class="pb-2 border-bottom">Columns with icons</h2>
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        
+          <% data.forEach(function(brewery) { %>
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+                    <svg src="C:\Users\uma.deivassigamany\bootstrap_test\public\beer.svg" class="bi" width="1em" height="1em" ></svg>
+                </div>
+                <h3 class="fs-2 text-body-emphasis"><%= brewery.city %></h3>
+                <p><%= brewery.name %> is a <%= brewery.brewery_type %> brewery located at <%= brewery.address_1 %>, <%= brewery.city %>, <%= brewery.state_province %>. Contact them at <%= brewery.phone %> or visit their website <a href="<%= brewery.website_url %>"><%= brewery.website_url %></a>.</p>
+                <%= brewery.phone %>
+                <a href="<%= brewery.website_url %>"><%= brewery.website_url %></a>
+                <a href="#" class="icon-link">
+                    Call to action
+                    <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
+                </a>
+            </div>
+        <% }); %>
+        </div>
+      </div>
+
+
+</body>
+</html>
