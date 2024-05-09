@@ -1,6 +1,7 @@
 //import express, axios 
 import express from "express";
 import axios from "axios";
+import https from "https";
 //import bootstrap from "bootstrap";
 
 //creating express app
@@ -13,14 +14,20 @@ app.use(express.static('public'));
 //creating first request from api
 
 app.get("/", async(req, res) => {
-    let response = await axios.get("https://api.openbrewerydb.org/v1/breweries");
+    let response = await axios.get("https://api.openbrewerydb.org/v1/breweries", 
+    {
+    httpsAgent: new https.Agent({ rejectUnauthorized: false }) //making the request to trust the self-signed certificate
+    });
     //console.log(response.data);
     let result = response.data;
     res.render("index.ejs", {data : result});
   });
 
 app.get("/city", async(req, res) => {
-    let response = await axios.get("https://api.openbrewerydb.org/v1/breweries?by_city=san_diego");
+    let response = await axios.get("https://api.openbrewerydb.org/v1/breweries?by_city=san_diego", 
+    {
+    httpsAgent: new https.Agent({ rejectUnauthorized: false }) //making the request to trust the self-signed certificate
+    });
     //console.log(response.data);
     let result = response.data;
     res.render("index.ejs", {data : result});
