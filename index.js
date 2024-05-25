@@ -12,17 +12,18 @@ const port = 3000;
 app.use(express.static('public'));
 
 //creating first request from api
-
 app.get("/", async(req, res) => {
-    let response = await axios.get("https://api.openbrewerydb.org/v1/breweries", 
-    {
-    httpsAgent: new https.Agent({ rejectUnauthorized: false }) //making the request to trust the self-signed certificate
-    });
+    // let response = await axios.get("https://api.openbrewerydb.org/v1/breweries", 
+    // {
+    // httpsAgent: new https.Agent({ rejectUnauthorized: false }) //making the request to trust the self-signed certificate
+    // });
+    let response = await axios.get("https://api.openbrewerydb.org/v1/breweries");
     //console.log(response.data);
     let result = response.data;
     res.render("index.ejs", {data : result});
   });
 
+//filtering by city => san_deigo
 app.get("/city", async(req, res) => {
     let response = await axios.get("https://api.openbrewerydb.org/v1/breweries?by_city=san_diego", 
     {
@@ -33,6 +34,17 @@ app.get("/city", async(req, res) => {
     res.render("index.ejs", {data : result});
 });
 
+app.get("/city2", async(req, res) => {
+    let searchTerm = req.body.search;
+    let response = await axios.get(`https://api.openbrewerydb.org/v1/breweries?by_city=${searchTerm}`);
+    // let response = await axios.get("https://api.openbrewerydb.org/v1/breweries?by_city=san_diego", 
+    // {
+    // httpsAgent: new https.Agent({ rejectUnauthorized: false }) //making the request to trust the self-signed certificate
+    // });
+    //console.log(response.data);
+    let result = response.data;
+    res.render("index.ejs", {data : result});
+});
 
 
 
