@@ -8,20 +8,19 @@
 
         <h2 class="pb-2 border-bottom">Major Breweries</h2>
         <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-        
-        <% data.forEach(function(brewery) { %>
-            <div class="feature col">
-                <h3 class="fs-2 text-body-emphasis"><%= brewery.city %></h3>
-                <p><%= brewery.name %> is a <%= brewery.brewery_type %> brewery located at <%= brewery.address_1 %>, <%= brewery.city %>, <%= brewery.state_province %>. Contact them at <%= brewery.phone %> or visit their website <a href="<%= brewery.website_url %>"><%= brewery.website_url %></a>.</p>
-                <%= brewery.phone %>
-                <a href="<%= brewery.website_url %>"><%= brewery.website_url %></a>
-                <a href="#" class="icon-link">
-                    Call to action
-                    <svg class="bi"><use xlink:href="#chevron-right"></use></svg>
-                </a>
-            </div>
-         <% }); %>
-        </div> 
+            <% data.forEach(function(brewery) { %>
+                <div class="col">
+                    <div class="card" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: hidden;">
+                        <div class="feature col">
+                            <h3 class="fs-2 text-body-emphasis"><%= brewery.city %></h3>
+                            <div class="card-body">
+                                <p><%= brewery.name %> is a <%= brewery.brewery_type %> brewery located at <%= brewery.address_1 %>, <%= brewery.city %>, <%= brewery.state_province %>. Contact them at <%= brewery.phone %> or visit their website <a href="<%= brewery.website_url %>"><%= brewery.website_url %></a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
 
     </div>
 

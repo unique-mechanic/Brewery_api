@@ -7,8 +7,8 @@
     <div class="container px-4 py-5" id="featured-3">
         <h2 class="pb-2 border-bottom">Breweries by Location</h2>
         <h6 style="text-align: center;">If no inputs are given, then the places are chosen randomly</h6>
-        <div >
-            <form action="/location" class="w-50">
+        <div>
+            <form action="/location" class="w-50 mx-auto">
                 <div class="form-row align-items-center">
                     <div class="col-sm-6 my-1">
                         <label class="sr-only" for="inlineFormInputName">Latitude</label>
@@ -26,8 +26,8 @@
         </div>
         <% if(locals.statesCovered){ %>
             <div class="text-center my-4">
-            <h5>Countries Covered: <%= countriesCovered %></h5>
-            <h6>States Covered: <%= statesCovered %></h6>
+                <h5>Countries Covered: <%= countriesCovered %></h5>
+                <h6>States Covered: <%= statesCovered %></h6>
             </div>
         <% } %>    
         <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
@@ -37,6 +37,17 @@
                     <p><%= brewery.name %> is a <%= brewery.brewery_type %> brewery located at <%= brewery.address_1 %>, <%= brewery.city %>, <%= brewery.state_province %>. Contact them at <%= brewery.phone %> or visit their website <a href="<%= brewery.website_url %>"><%= brewery.website_url %></a>.</p>
                 </div>
             <% }); %>
+        </div>
+
+        <!-- Pagination controls -->
+        <div class="pagination text-center mt-4">
+            <% if (currentPage > 1) { %>
+                <a href="/location?lat=<%= locals.lat %>&lon=<%= locals.lon %>&page=<%= currentPage - 1 %>&limit=3" class="btn btn-secondary mx-2">Previous</a>
+            <% } %>
+
+            <% if (hasNextPage) { %>
+                <a href="/location?lat=<%= locals.lat %>&lon=<%= locals.lon %>&page=<%= currentPage + 1 %>&limit=3" class="btn btn-secondary mx-2">Next</a>
+            <% } %>
         </div>
     </div>
 
