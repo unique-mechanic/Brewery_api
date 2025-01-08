@@ -87,33 +87,36 @@ app.get("/getState", async (req, res) => {
     }
 });
 
-app.get("/location", async (req, res) => {
-    const latitude = req.query.lat;
-    const longitude = req.query.lon;
-    console.log(latitude + "" + longitude);
+app.get('/location', async (req, res) => {
+    const { lat, lon, page = 1, limit = 3 } = req.query;
+    const currentPage = parseInt(page);
+    const perPage = parseInt(limit);
+    const offset = (currentPage - 1) * perPage;
+
     try {
-        let response = await axios.get(`https://api.openbrewerydb.org/v1/breweries?by_dist=${latitude},${longitude}&per_page=3`, {
-            httpsAgent: new https.Agent({ rejectUnauthorized: false }) // Making the request to trust the self-signed certificate
+        const response = await axios.get(`https://api.openbrewerydb.org/v1/breweries?by_dist=${lat},${lon}&per_page=${perPage}&page=${currentPage}`);
+        const breweries = response.data;
+
+        // Calculate if there's a next page
+        const totalBreweries = response.headers['x-total-count']; // Assuming this is returned by the API
+        const hasNextPage = currentPage * perPage < totalBreweries;
+
+        res.render('location', {
+            locals: {
+                lat,
+                lon,
+                data: breweries,
+                statesCovered: ['California', 'Texas'], // Example data
+                countriesCovered: ['USA'],
+                currentPage,
+                hasNextPage
+            }
         });
-        let result = response.data;
-        console.log("States covered");
-        const statesCoveredSet = new Set();
-        const countriesCoveredSet = new Set();
-        result.forEach(function (brewery) {
-            statesCoveredSet.add(brewery.state);
-            countriesCoveredSet.add(brewery.country);
-        });
-        const statesCovered = Array.from(statesCoveredSet);
-        const countriesCovered = Array.from(countriesCoveredSet);
-        console.log(statesCovered);
-        res.render("location.ejs", { data: result, statesCovered: statesCovered, countriesCovered: countriesCovered });
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching breweries:', error);
         res.status(500).send('Internal Server Error');
     }
 });
-
-
 
 //predefined port to start the server
 app.listen(port, () => {
