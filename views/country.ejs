@@ -6,20 +6,20 @@
     
     <div class="container px-4 py-5" id="featured-3">
         <div class="d-flex justify-content-center mb-4">
-            <form action="/getState" method="get" class="d-flex align-items-center">
-                <select class="form-select form-select-lg mr-2" name="state" aria-label="Select a state">
-                    <% if (locals.selectedState) { %>
-                        <% for (let i = 0; i < state.length; i++) { %>
-                            <% if (state[i] === locals.selectedState) { %>
-                                <option selected value="<%= state[i] %>"><%= state[i] %></option>
+            <form action="/getCountry" method="get" class="d-flex align-items-center">
+                <select class="form-select form-select-lg mr-2" name="country" aria-label="Select a country">
+                    <% if (locals.selectedCountry) { %>
+                        <% for (let i = 0; i < countries.length; i++) { %>
+                            <% if (countries[i] === locals.selectedCountry) { %>
+                                <option selected value="<%= countries[i] %>"><%= countries[i] %></option>
                             <% } else { %>
-                                <option value="<%= state[i] %>"><%= state[i] %></option>    
+                                <option value="<%= countries[i] %>"><%= countries[i] %></option>    
                             <% } %>
                         <% } %>
                     <% } else { %>
-                        <option selected>Select a State</option>
-                        <% for (let i = 0; i < state.length; i++) { %>
-                            <option value="<%= state[i] %>"><%= state[i] %></option>
+                        <option selected>Select a Country</option>
+                        <% for (let i = 0; i < countries.length; i++) { %>
+                            <option value="<%= countries[i] %>"><%= countries[i] %></option>
                         <% } %>
                     <% } %>    
                 </select>
@@ -27,16 +27,14 @@
             </form>
         </div>
 
-        <% if (locals.selectedState) { %>
-            <h4 class="text-center mb-4">Breweries in <%= locals.selectedState %></h4>
+        <% if (locals.selectedCountry) { %>
+            <h4 class="text-center mb-4">Breweries in <%= locals.selectedCountry %></h4>
             <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
                 <% data.forEach(function(brewery) { %>
                     <div class="col">
                         <div class="card h-100 shadow-sm">
                             <div class="card-body">
-                                <h5 class="card-title text-body-emphasis">
-                                    <a href="/brewery/<%= brewery.id %>" class="text-decoration-none text-primary"><%= brewery.name %></a>
-                                </h5>
+                                <h5 class="card-title text-body-emphasis"><%= brewery.name %></h5>
                                 <p class="card-text">
                                     <%= brewery.name %> is a <%= brewery.brewery_type %> brewery located at 
                                     <%= brewery.address_1 %>, <%= brewery.city %>, <%= brewery.state_province %>.

@@ -21,7 +21,7 @@
         <a id="listAllLink" class="nav-item nav-link link-body-emphasis" href="/">List All</a>
         <a id="byCityLink" class="nav-item nav-link link-body-emphasis" href="/city">By City</a>
         <a id="byDistanceLink" class="nav-item nav-link link-body-emphasis" href="/location">By Distance</a>
-        <a id="byNameLink" class="nav-item nav-link link-body-emphasis" href="#">By Name</a>
+        <a id="byNameLink" class="nav-item nav-link link-body-emphasis" href="/getCountry">By Country</a>
         <a id="byStateLink" class="nav-item nav-link link-body-emphasis" href="/state">By State</a>
         <a id="byPostalLink" class="nav-item nav-link link-body-emphasis" href="#">By Postal</a>
     </nav>
@@ -43,9 +43,9 @@
       document.getElementById('listAllLink').classList.add('active');
   } else if (currentPath == '/city' || currentPath === '/getCity') {
       document.getElementById('byCityLink').classList.add('active');
-  } else if (currentPath === '/distance') {
+  } else if (currentPath === '/location') {
       document.getElementById('byDistanceLink').classList.add('active');
-  } else if (currentPath === '/name') {
+  } else if (currentPath === '/country') {
       document.getElementById('byNameLink').classList.add('active');
   } else if (currentPath === '/state'  || currentPath === '/getState') {
       document.getElementById('byStateLink').classList.add('active');
