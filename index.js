@@ -14,6 +14,7 @@ app.use(express.static('public'));
 const city = [];
 const state =[];
 
+
 app.set('view engine', 'ejs');
 
 //creating first request from api
@@ -149,20 +150,55 @@ app.get('/location', async (req, res) => {
         console.error('Error fetching breweries:', error);
         res.status(500).send('Internal Server Error');
     }
-});+-
+});
+
+const countries = [
+    "Austria",
+    "England",
+    "France",
+    "Isle of Man",
+    "Ireland",
+    "Poland",
+    "Portugal",
+    "Scotland",
+    "Singapore",
+    "South Korea",
+    "United States"
+];
+
+app.get('/country', async (req, res) => {
+    try {
+        let response = await axios.get("https://api.openbrewerydb.org/v1/breweries", {
+            httpsAgent: new https.Agent({ rejectUnauthorized: false }) // Trusting self-signed certificate
+        });
+        let result = response.data;
+
+        res.render("country.ejs", { data: result, countries, selectedCountry: null });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 app.get("/getCountry", async (req, res) => {
     const selectedCountry = req.query.country; // Get the selected country from query parameters
+    console.log(selectedCountry);
     try {
         let response = await axios.get(`https://api.openbrewerydb.org/v1/breweries?by_country=${encodeURIComponent(selectedCountry)}`, {
             httpsAgent: new https.Agent({ rejectUnauthorized: false }) // Making the request to trust the self-signed certificate
         });
         let result = response.data;
         // Assuming you have a function to fetch the list of countries, for example:
-       // let countries = await axios.get('https://api.openbrewerydb.org/v1/countries');
+       //let countries = await axios.get('https://api.openbrewerydb.org/v1/countries');
+
+    //    if(state.length === 0){
+    //         result.forEach(function(brewery){
+    //             state.push(brewery.state);     in progress
+    //         });
+    //     }
         
         console.log(result); 
-        res.render("country.ejs", { data: result, selectedCountry: [selectedCountry], countries: countries.data });
+        res.render("country.ejs", { data: result, selectedCountry, countries});
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');

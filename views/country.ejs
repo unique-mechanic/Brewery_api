@@ -3,7 +3,7 @@
     <%- include("./partials/head.ejs") %>
 <body>
     <%- include("./partials/header.ejs") %>
-    
+
     <div class="container px-4 py-5" id="featured-3">
         <div class="d-flex justify-content-center mb-4">
             <form action="/getCountry" method="get" class="d-flex align-items-center">
@@ -23,9 +23,10 @@
                         <% } %>
                     <% } %>    
                 </select>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary mx-2">Submit</button>
             </form>
         </div>
+
 
         <% if (locals.selectedCountry) { %>
             <h4 class="text-center mb-4">Breweries in <%= locals.selectedCountry %></h4>
