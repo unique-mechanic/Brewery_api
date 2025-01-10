@@ -1,29 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%- include("./partials/head.ejs") %>
+<%- include("./partials/head.ejs") %>
 <body>
     <%- include("./partials/header.ejs") %>
     
-    <div class="container px-4 py-5" id="featured-3">
+    <div class="container my-5">
+        <h2 class="pb-3 border-bottom text-center">Major Breweries</h2>
 
-        <h2 class="pb-2 border-bottom">Major Breweries</h2>
+        <form action="/" method="GET" class="mb-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="breweryType" class="form-label">Filter by Brewery Type</label>
+                    <select id="breweryType" name="type" class="form-select">
+                        <option value="" <%= !breweryType ? "selected" : "" %>>All</option>
+                        <option value="micro" <%= breweryType === "micro" ? "selected" : "" %>>Micro</option>
+                        <option value="brewpub" <%= breweryType === "brewpub" ? "selected" : "" %>>Brewpub</option>
+                        <option value="regional" <%= breweryType === "regional" ? "selected" : "" %>>Regional</option>
+                        <option value="nano" <%= breweryType === "nano" ? "selected" : "" %>>Nano</option>
+                        <option value="large" <%= breweryType === "large" ? "selected" : "" %>>Large</option>
+                    </select>
+                </div>
+                <div class="col-md-3 align-self-end">
+                    <button type="submit" class="btn btn-primary">Apply Filter</button>
+                </div>
+            </div>
+        </form>
+
         <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
             <% data.forEach(function(brewery) { %>
                 <div class="col">
-                    <div class="card" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: hidden;">
-                        <div class="feature col">
-                            <h3 class="fs-2 text-body-emphasis"><%= brewery.city %></h3>
-                            <div class="card-body">
-                                <p><%= brewery.name %> is a <%= brewery.brewery_type %> brewery located at <%= brewery.address_1 %>, <%= brewery.city %>, <%= brewery.state_province %>. Contact them at <%= brewery.phone %> or visit their website <a href="<%= brewery.website_url %>"><%= brewery.website_url %></a>.</p>
-                            </div>
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-body-emphasis">
+                                <a href="/brewery/<%= brewery.id %>" class="text-decoration-none text-primary"><%= brewery.name %></a>
+                            </h5>
+                            <p class="card-text">
+                                <%= brewery.name %> is a <%= brewery.brewery_type %> brewery located at 
+                                <%= brewery.address_1 %>, <%= brewery.city %>, <%= brewery.state_province %>.
+                            </p>
+                            <p>Contact: (+1) <%= brewery.phone %></p>
+                            <a href="<%= brewery.website_url %>" class="btn btn-outline-primary" target="_blank">Visit Website</a>
                         </div>
                     </div>
                 </div>
             <% }); %>
         </div>
-
     </div>
-
-
 </body>
 </html>

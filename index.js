@@ -14,18 +14,51 @@ app.use(express.static('public'));
 const city = [];
 const state =[];
 
+app.set('view engine', 'ejs');
+
 //creating first request from api
-app.get("/", async(req, res) => {
-    let response = await axios.get("https://api.openbrewerydb.org/v1/breweries", 
-    {
-    httpsAgent: new https.Agent({ rejectUnauthorized: false }) //making the request to trust the self-signed certificate
-    });
-    //let response = await axios.get("https://api.openbrewerydb.org/v1/breweries");
-    //console.log(response.data);
-    let result = response.data;
-    console.log(city);
-    res.render("index.ejs", {data : result, city: city});
-  });
+app.get("/", async (req, res) => {
+    const breweryType = req.query.type; // Get the type from query params
+    const apiUrl = "https://api.openbrewerydb.org/v1/breweries";
+
+    try {
+        // Construct the API URL with the type filter if provided
+        const fetchUrl = breweryType
+            ? `${apiUrl}?by_type=${breweryType}`
+            : apiUrl;
+
+        const response = await fetch(fetchUrl);
+        const data = await response.json();
+
+        res.render("index", { data , breweryType});
+    } catch (error) {
+        console.error("Error fetching breweries:", error.message);
+        res.status(500).send("Something went wrong!");
+    }
+});
+
+  app.get('/brewery/:id', async (req, res) => {
+    const breweryId = req.params.id;
+
+    try {
+        // Fetch the brewery details using the provided ID
+        const response = await fetch(`https://api.openbrewerydb.org/v1/breweries?by_ids=${breweryId}`);
+        const data = await response.json();
+
+        if (data.length === 0) {
+            return res.status(404).send('Brewery not found');
+        }
+
+        const brewery = data[0]; // Get the first (and only) brewery from the response
+        res.render('breweryDetails', { brewery });
+    } catch (error) {
+        console.error('Error fetching brewery details:', error);
+        res.status(500).send('Error fetching brewery details');
+    }
+});
+
+
+
 
 //filtering by city => san_deigo
 app.get("/city", async(req, res) => {
@@ -114,6 +147,24 @@ app.get('/location', async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching breweries:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});+-
+
+app.get("/getCountry", async (req, res) => {
+    const selectedCountry = req.query.country; // Get the selected country from query parameters
+    try {
+        let response = await axios.get(`https://api.openbrewerydb.org/v1/breweries?by_country=${encodeURIComponent(selectedCountry)}`, {
+            httpsAgent: new https.Agent({ rejectUnauthorized: false }) // Making the request to trust the self-signed certificate
+        });
+        let result = response.data;
+        // Assuming you have a function to fetch the list of countries, for example:
+       // let countries = await axios.get('https://api.openbrewerydb.org/v1/countries');
+        
+        console.log(result); 
+        res.render("country.ejs", { data: result, selectedCountry: [selectedCountry], countries: countries.data });
+    } catch (error) {
+        console.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

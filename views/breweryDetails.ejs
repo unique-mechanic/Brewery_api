@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("./partials/head.ejs") %>
+<body>
+    <%- include("./partials/header.ejs") %>
+    
+    <div class="container px-4 py-5">
+        <h2 class="pb-2 border-bottom text-center"><%= brewery.name %></h2>
+        
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">Type: <%= brewery.brewery_type %></h5>
+                <p class="card-text">
+                    <strong>Address:</strong> <%= brewery.address_1 %>, <%= brewery.city %>, <%= brewery.state_province %><br>
+                    <strong>Phone:</strong> <%= brewery.phone %><br>
+                    <strong>Website:</strong> <a href="<%= brewery.website_url %>" target="_blank"><%= brewery.website_url %></a>
+                </p>
+                <a href="/" class="btn btn-secondary">Back to Breweries</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
